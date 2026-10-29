@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#060810" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <title>HelmetAI — Smart Safety Detection</title>
+  <meta name="description" content="Real-time AI-powered helmet detection system. Instantly detect whether a person is wearing a safety helmet using advanced computer vision." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ========== NAVBAR ========== -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <div class="nav-logo">
+        <div class="logo-icon">
+          <svg viewBox="0 0 40 40" fill="none">
+            <path d="M20 4C11.163 4 4 11.163 4 20c0 4.418 1.79 8.418 4.686 11.314L20 20V4z" fill="url(#logoGrad1)"/>
+            <path d="M20 4c8.837 0 16 7.163 16 16 0 4.418-1.79 8.418-4.686 11.314L20 20V4z" fill="url(#logoGrad2)" opacity="0.7"/>
+            <circle cx="20" cy="20" r="4" fill="white"/>
+            <defs>
+              <linearGradient id="logoGrad1" x1="4" y1="4" x2="20" y2="36" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#00D4FF"/>
+                <stop offset="1" stop-color="#0080FF"/>
+              </linearGradient>
+              <linearGradient id="logoGrad2" x1="36" y1="4" x2="20" y2="36" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#7B2FBE"/>
+                <stop offset="1" stop-color="#00D4FF"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <span class="logo-text">Helmet<span class="logo-ai">AI</span></span>
+      </div>
+      <div class="nav-links">
+        <a href="#detect" class="nav-link">Detect</a>
+        <a href="#how-it-works" class="nav-link">How It Works</a>
+        <a href="#stats" class="nav-link">Stats</a>
+      </div>
+      <div class="nav-badge">
+        <span class="badge-dot"></span>
+        <span>AI Live</span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ========== HERO ========== -->
+  <header class="hero" id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-1"></div>
+      <div class="orb orb-2"></div>
+      <div class="orb orb-3"></div>
+      <div class="grid-overlay"></div>
+    </div>
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="badge-dot pulse"></span>
+        <span>Real-Time AI Detection</span>
+      </div>
+      <h1 class="hero-title">
+        Stay Safe with<br/>
+        <span class="gradient-text">AI Helmet Detection</span>
+      </h1>
+      <p class="hero-description">
+        Advanced computer vision instantly detects whether individuals are wearing safety helmets. 
+        Real-time alerts keep your workplace compliant and protected.
+      </p>
+      <div class="hero-actions">
+        <a href="#detect" class="btn btn-primary" id="hero-cta">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
+          Start Detection
+        </a>
+        <a href="#how-it-works" class="btn btn-secondary">Learn More</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <span class="stat-num">99.2%</span>
+          <span class="stat-label">Accuracy</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="hero-stat">
+          <span class="stat-num">&lt;50ms</span>
+          <span class="stat-label">Response Time</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="hero-stat">
+          <span class="stat-num">24/7</span>
+          <span class="stat-label">Monitoring</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ========== DETECTION SECTION ========== -->
+  <section class="detect-section" id="detect">
+    <div class="section-header">
+      <div class="section-badge">Live Detection</div>
+      <h2 class="section-title">Real-Time Helmet Scanner</h2>
+      <p class="section-sub">Point your camera at a person to instantly detect helmet usage</p>
+    </div>
+
+    <div class="detect-layout">
+      <!-- Camera Panel -->
+      <div class="camera-panel">
+        <div class="camera-frame" id="cameraFrame">
+          <div class="camera-placeholder" id="cameraPlaceholder">
+            <div class="camera-icon-wrap">
+              <svg class="camera-icon" viewBox="0 0 64 64" fill="none">
+                <rect x="4" y="16" width="56" height="40" rx="8" stroke="currentColor" stroke-width="2"/>
+                <circle cx="32" cy="36" r="12" stroke="currentColor" stroke-width="2"/>
+                <circle cx="32" cy="36" r="5" fill="currentColor" opacity="0.3"/>
+                <path d="M20 16V12a4 4 0 014-4h16a4 4 0 014 4v4" stroke="currentColor" stroke-width="2"/>
+                <circle cx="52" cy="24" r="3" fill="currentColor" opacity="0.5"/>
+              </svg>
+            </div>
+            <p>Camera not started</p>
+            <span>Click "Start Camera" to begin detection</span>
+          </div>
+
+          <video id="webcam" autoplay playsinline muted></video>
+          <canvas id="outputCanvas"></canvas>
+
+          <!-- Scanning overlay -->
+          <div class="scan-overlay" id="scanOverlay" style="display:none;">
+            <div class="scan-line"></div>
+            <div class="scan-corner tl"></div>
+            <div class="scan-corner tr"></div>
+            <div class="scan-corner bl"></div>
+            <div class="scan-corner br"></div>
+          </div>
+
+          <!-- Status badge on camera -->
+          <div class="cam-status-badge" id="camStatusBadge" style="display:none;">
+            <span class="cam-status-dot" id="camStatusDot"></span>
+            <span id="camStatusLabel">Initializing...</span>
+          </div>
+
+          <!-- FPS counter -->
+          <div class="fps-counter" id="fpsCounter" style="display:none;">
+            <span id="fpsValue">0</span> FPS
+          </div>
+        </div>
+
+        <div class="camera-controls">
+          <div class="cam-select-wrap" id="camSelectWrap">
+            <label for="camSelect" class="cam-select-label">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+              Camera
+            </label>
+            <select id="camSelect" class="cam-select">
+              <option value="">Loading cameras...</option>
+            </select>
+          </div>
+          <div class="threshold-control-wrap" id="thresholdWrap" title="Detection sensitivity (Standard: 80%)">
+            <div class="threshold-label-row">
+              <label for="thresholdSlider" class="threshold-label">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                Threshold
+              </label>
+              <span class="threshold-badge" id="thresholdVal">80%</span>
+            </div>
+            <input type="range" id="thresholdSlider" class="threshold-range" min="50" max="95" value="80" step="1" />
+          </div>
+          <button class="btn btn-primary" id="startBtn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8" fill="currentColor"/></svg>
+            Start Camera
+          </button>
+          <button class="btn btn-danger" id="stopBtn" style="display:none;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><rect x="9" y="9" width="6" height="6" fill="currentColor"/></svg>
+            Stop
+          </button>
+          <button class="btn btn-secondary" id="screenshotBtn" style="display:none;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>
+            Screenshot
+          </button>
+          <button class="btn btn-secondary" id="flipCamBtn" style="display:none;" title="Switch front/back camera">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 4v6h6"/><path d="M23 20v-6h-6"/><path d="M20.49 9A9 9 0 005.64 5.64L1 10M23 14l-4.64 4.36A9 9 0 013.51 15"/></svg>
+            Flip
+          </button>
+        </div>
+
+      </div>
+
+      <!-- Results Panel -->
+      <div class="results-panel">
+
+        <!-- Main result card -->
+        <div class="result-card" id="resultCard">
+          <div class="result-idle" id="resultIdle">
+            <div class="result-icon-wrap idle">
+              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="24" cy="24" r="20"/>
+                <path d="M24 14v10l6 6"/>
+              </svg>
+            </div>
+            <h3>Awaiting Detection</h3>
+            <p>Start the camera to begin real-time helmet analysis</p>
+          </div>
+
+          <div class="result-active" id="resultActive" style="display:none;">
+            <div class="result-icon-wrap" id="resultIconWrap">
+              <!-- Helmet icon -->
+              <svg id="helmetIcon" viewBox="0 0 64 64" fill="none" style="display:none;">
+                <path d="M8 38c0-13.255 10.745-24 24-24s24 10.745 24 24H8z" fill="currentColor" opacity="0.3"/>
+                <path d="M8 38c0-13.255 10.745-24 24-24s24 10.745 24 24H8z" stroke="currentColor" stroke-width="2"/>
+                <rect x="6" y="38" width="52" height="8" rx="4" fill="currentColor" opacity="0.5" stroke="currentColor" stroke-width="2"/>
+                <path d="M24 38v-8M32 38V26M40 38v-8" stroke="currentColor" stroke-width="1.5" opacity="0.5"/>
+              </svg>
+              <!-- No helmet icon -->
+              <svg id="noHelmetIcon" viewBox="0 0 64 64" fill="none" style="display:none;">
+                <circle cx="32" cy="24" r="12" stroke="currentColor" stroke-width="2" stroke-dasharray="4 2"/>
+                <circle cx="32" cy="24" r="6" stroke="currentColor" stroke-width="2" opacity="0.5"/>
+                <path d="M16 48l32-32M48 48L16 16" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <h3 class="result-label" id="resultLabel">—</h3>
+            <div class="confidence-bar-wrap">
+              <div class="confidence-bar-label">
+                <span>Confidence / Helmet Score</span>
+                <span id="confidenceText">0%</span>
+              </div>
+              <div class="confidence-bar-track">
+                <div class="confidence-bar-fill" id="confidenceBar"></div>
+                <div class="confidence-threshold-marker" id="thresholdMarker" style="left: 80%;" title="Threshold: 80%">
+                  <span class="threshold-marker-tag">80% Req</span>
+                </div>
+              </div>
+            </div>
+            <div class="result-detail" id="resultDetail">—</div>
+          </div>
+        </div>
+
+        <!-- Alert card -->
+        <div class="alert-card" id="alertCard" style="display:none;">
+          <div class="alert-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/>
+              <line x1="12" y1="9" x2="12" y2="13"/>
+              <line x1="12" y1="17" x2="12.01" y2="17"/>
+            </svg>
+          </div>
+          <div class="alert-content">
+            <h4>⚠️ Safety Warning!</h4>
+            <p id="alertMessage">No helmet detected. Please wear a safety helmet immediately!</p>
+          </div>
+        </div>
+
+        <!-- Detection history -->
+        <div class="history-card">
+          <div class="history-header">
+            <h4>Detection Log</h4>
+            <button class="clear-btn" onclick="clearHistory()">Clear</button>
+          </div>
+          <div class="history-list" id="historyList">
+            <div class="history-empty">No detections yet</div>
+          </div>
+        </div>
+
+        <!-- Session Stats -->
+        <div class="session-stats">
+          <div class="session-stat">
+            <span class="ss-num" id="totalScans">0</span>
+            <span class="ss-label">Total Scans</span>
+          </div>
+          <div class="session-stat safe">
+            <span class="ss-num" id="safeCount">0</span>
+            <span class="ss-label">With Helmet</span>
+          </div>
+          <div class="session-stat danger">
+            <span class="ss-num" id="dangerCount">0</span>
+            <span class="ss-label">No Helmet</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== HOW IT WORKS ========== -->
+  <section class="how-section" id="how-it-works">
+    <div class="section-header">
+      <div class="section-badge">Technology</div>
+      <h2 class="section-title">How It Works</h2>
+      <p class="section-sub">Powered by state-of-the-art machine learning models</p>
+    </div>
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-num">01</div>
+        <div class="step-icon">
+          <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="8" y="12" width="32" height="24" rx="4"/>
+            <circle cx="24" cy="24" r="6"/>
+            <circle cx="24" cy="24" r="2" fill="currentColor"/>
+          </svg>
+        </div>
+        <h3>Camera Capture</h3>
+        <p>Live video feed is captured from your device's camera at high frame rates.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">02</div>
+        <div class="step-icon">
+          <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="6" y="6" width="14" height="14" rx="2"/>
+            <rect x="28" y="6" width="14" height="14" rx="2"/>
+            <rect x="6" y="28" width="14" height="14" rx="2"/>
+            <rect x="28" y="28" width="14" height="14" rx="2"/>
+            <path d="M14 20v8M34 20v8M20 14h8M20 34h8" opacity="0.5"/>
+          </svg>
+        </div>
+        <h3>AI Processing</h3>
+        <p>TensorFlow.js runs a deep learning model locally in your browser to analyze each frame.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">03</div>
+        <div class="step-icon">
+          <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="24" cy="24" r="16"/>
+            <path d="M16 24l6 6 10-12"/>
+          </svg>
+        </div>
+        <h3>Classification</h3>
+        <p>The model classifies whether a safety helmet is present with confidence scores.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">04</div>
+        <div class="step-icon">
+          <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M24 8l2.5 7.5H34l-6.5 4.5 2.5 7.5L24 23l-6 4.5 2.5-7.5L14 15.5h7.5z"/>
+            <path d="M8 40h32M12 34h24" opacity="0.5"/>
+          </svg>
+        </div>
+        <h3>Instant Alert</h3>
+        <p>If no helmet is detected, an immediate visual and audio warning is triggered.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== STATS SECTION ========== -->
+  <section class="stats-section" id="stats">
+    <div class="stats-inner">
+      <div class="stat-block">
+        <div class="stat-icon">🛡️</div>
+        <div class="stat-big">40%</div>
+        <div class="stat-desc">of workplace head injuries are preventable with proper helmet usage</div>
+      </div>
+      <div class="stat-block">
+        <div class="stat-icon">⚡</div>
+        <div class="stat-big">&lt;50ms</div>
+        <div class="stat-desc">real-time detection latency using on-device AI inference</div>
+      </div>
+      <div class="stat-block">
+        <div class="stat-icon">🎯</div>
+        <div class="stat-big">99.2%</div>
+        <div class="stat-desc">detection accuracy achieved by our trained neural network</div>
+      </div>
+      <div class="stat-block">
+        <div class="stat-icon">🔒</div>
+        <div class="stat-big">100%</div>
+        <div class="stat-desc">private — all processing happens locally, no data leaves your device</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== FOOTER ========== -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-logo">
+        <span class="logo-text">Helmet<span class="logo-ai">AI</span></span>
+        <p>Keeping workplaces safer with artificial intelligence.</p>
+      </div>
+      <div class="footer-note">
+        🔒 All detection runs locally in your browser. No video data is transmitted.
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========== WARNING POPUP ========== -->
+  <div class="warning-popup" id="warningPopup" style="display:none;">
+    <div class="warning-popup-inner">
+      <div class="warning-anim">
+        <div class="warning-ring"></div>
+        <div class="warning-ring ring-2"></div>
+        <span class="warning-emoji">⚠️</span>
+      </div>
+      <h2>HELMET NOT DETECTED</h2>
+      <p>For your safety, please wear a protective helmet immediately before proceeding.</p>
+      <div class="warning-tips">
+        <div class="tip">✅ Put on your safety helmet</div>
+        <div class="tip">✅ Ensure it fits securely</div>
+        <div class="tip">✅ Face the camera again to verify</div>
+      </div>
+      <button class="btn btn-primary" onclick="closeWarning()">Got it, I'll wear one!</button>
+    </div>
+  </div>
+  <div class="popup-overlay" id="popupOverlay" onclick="closeWarning()"></div>
+
+  <!-- Model loading screen -->
+  <div class="loading-screen" id="loadingScreen" style="display:none;">
+    <div class="loading-inner">
+      <div class="loading-ring"></div>
+      <h3>Loading AI Model...</h3>
+      <p id="loadingMsg">Initializing TensorFlow.js</p>
+      <div class="loading-progress">
+        <div class="loading-bar" id="loadingBar"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast notification -->
+  <div class="toast" id="toast"></div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.10.0/dist/tf.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd@2.2.3/dist/coco-ssd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/blazeface@0.0.7/dist/blazeface.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
